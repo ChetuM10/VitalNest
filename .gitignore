@@ -1,0 +1,29 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets (only the placeholder .env.example is allowed)
+.env
+*.env
+.env.*
+!.env.example
+samconfig.toml
+
+# AWS SAM build output
+.aws-sam/
+
+# Ingestion data (downloaded and generated, can be rebuilt)
+ingestion/data/
+
+# Frontend
+node_modules/
+dist/
+
+# Editor and local tooling
+.claude/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
