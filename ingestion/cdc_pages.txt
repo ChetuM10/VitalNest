@@ -1,0 +1,578 @@
+# Reviewed list of CDC pages (https://www.cdc.gov/<path>). One path per line; '#' starts a comment.
+# Chosen from CDC's own sitemaps: patient-facing pages (about, symptoms, risk factors, prevention, treatment...).
+# Provider (hcp), public-health-program (php), Spanish, data and training pages are left out on purpose.
+# Pages carrying a copyright notice are skipped at build time even if listed here.
+# diabetes
+diabetes/about/about-type-1-diabetes.html
+diabetes/about/about-type-2-diabetes.html
+diabetes/about/index.html
+diabetes/complications/index.html
+diabetes/diabetes-testing/screening-type-1-diabetes.html
+diabetes/living-with/index.html
+# prediabetes
+prediabetes/risktest/about-the-test.html
+# diabetes-prevention
+diabetes-prevention/about-prediabetes-type-2/index.html
+# cancer
+cancer/hpv/diagnosis-by-age.html
+cancer/prevention/index.html
+cancer/prevention/screening.html
+cancer/prevention/vaccination.html
+cancer/risk-factors/index.html
+cancer/types/index.html
+# breast-cancer
+breast-cancer/about/index.html
+breast-cancer/prevention/index.html
+breast-cancer/risk-factors/index.html
+breast-cancer/screening/diagnosis.html
+breast-cancer/screening/index.html
+breast-cancer/symptoms/index.html
+# colorectal-cancer
+colorectal-cancer/about/index.html
+colorectal-cancer/prevention/index.html
+colorectal-cancer/risk-factors/index.html
+colorectal-cancer/screening/index.html
+colorectal-cancer/symptoms/index.html
+# lung-cancer
+lung-cancer/about/index.html
+lung-cancer/living-with/index.html
+lung-cancer/prevention/index.html
+lung-cancer/risk-factors/index.html
+lung-cancer/screening/index.html
+lung-cancer/symptoms/index.html
+# skin-cancer
+skin-cancer/about/index.html
+skin-cancer/prevention/index.html
+skin-cancer/risk-factors/index.html
+skin-cancer/screening/index.html
+skin-cancer/symptoms/index.html
+# cervical-cancer
+cervical-cancer/about/index.html
+cervical-cancer/prevention/index.html
+cervical-cancer/risk-factors/index.html
+cervical-cancer/screening/index.html
+cervical-cancer/symptoms/index.html
+cervical-cancer/treatment/index.html
+# prostate-cancer
+prostate-cancer/about/index.html
+prostate-cancer/diagnosis/index.html
+prostate-cancer/risk-factors/index.html
+prostate-cancer/screening/index.html
+prostate-cancer/symptoms/index.html
+prostate-cancer/treatment/index.html
+# ovarian-cancer
+ovarian-cancer/about/index.html
+ovarian-cancer/prevention/index.html
+ovarian-cancer/risk-factors/index.html
+ovarian-cancer/screening/index.html
+ovarian-cancer/symptoms/index.html
+ovarian-cancer/treatment/index.html
+# heart-disease
+heart-disease/about/about-heart-disease-and-mental-health.html
+heart-disease/about/index.html
+heart-disease/prevention/index.html
+heart-disease/risk-factors/index.html
+# stroke
+stroke/about/index.html
+stroke/prevention/index.html
+stroke/risk-factors/index.html
+stroke/signs-symptoms/index.html
+stroke/treatment/index.html
+# high-blood-pressure
+high-blood-pressure/about/index.html
+high-blood-pressure/living-with/index.html
+high-blood-pressure/prevention/index.html
+high-blood-pressure/risk-factors/index.html
+# cholesterol
+cholesterol/about/index.html
+cholesterol/prevention/index.html
+cholesterol/risk-factors/index.html
+cholesterol/testing/index.html
+cholesterol/treatment/index.html
+# obesity
+obesity/data-and-statistics/facts-about-obesity-among-young-children-enrolled-in-wic.html
+obesity/risk-factors/risk-factors.html
+# nutrition: no patient-facing pages matched
+# physical-activity: no patient-facing pages matched
+# healthyweight: no patient-facing pages matched
+# copd
+copd/about/index.html
+# asthma
+asthma/about/index.html
+asthma/living-with/index.html
+# kidney-disease
+kidney-disease/about/index.html
+kidney-disease/living-with/index.html
+kidney-disease/prevention/index.html
+kidney-disease/risk-factors/index.html
+kidney-disease/testing/index.html
+# arthritis
+arthritis/basics/index.html
+arthritis/prevention/index.html
+arthritis/risk-factors/index.html
+# lupus
+lupus/about/index.html
+lupus/signs-symptoms/index.html
+# sickle-cell
+sickle-cell/about/index.html
+sickle-cell/about/prevention-and-treatment.html
+sickle-cell/complications/complications-of-scd-infection.html
+sickle-cell/complications/complications-of-scd-organ-damage.html
+sickle-cell/complications/complications-of-scd-stroke.html
+sickle-cell/complications/index.html
+# mental-health
+mental-health/about-data/index.html
+mental-health/about/about-behavioral-health.html
+mental-health/about/index.html
+mental-health/living-with/index.html
+# suicide
+suicide/about/index.html
+suicide/facts/index.html
+suicide/prevention/index.html
+suicide/risk-factors/index.html
+# adhd
+adhd/about/index.html
+adhd/diagnosis/index.html
+adhd/signs-symptoms/index.html
+adhd/treatment/index.html
+# autism
+autism/about/index.html
+autism/diagnosis/index.html
+autism/living-with/index.html
+autism/seed/about.html
+autism/signs-symptoms/index.html
+autism/treatment/index.html
+# alzheimers-dementia
+alzheimers-dementia/about/index.html
+alzheimers-dementia/prevention/index.html
+alzheimers-dementia/signs-symptoms/index.html
+# epilepsy
+epilepsy/about/index.html
+epilepsy/about/types-of-seizures.html
+epilepsy/living-with/index.html
+epilepsy/prevention/index.html
+epilepsy/treatment/index.html
+# tourette-syndrome
+tourette-syndrome/about/index.html
+tourette-syndrome/diagnosis/index.html
+tourette-syndrome/treatment/index.html
+# hiv
+hiv/about/index.html
+hiv/causes/index.html
+hiv/living-with/index.html
+hiv/prevention/index.html
+hiv/testing/index.html
+hiv/treatment/index.html
+# tb
+tb/about/index.html
+tb/causes/index.html
+tb/prevention/index.html
+tb/risk-factors/index.html
+tb/signs-symptoms/index.html
+tb/testing/index.html
+# malaria
+malaria/about/index.html
+malaria/causes/index.html
+malaria/prevention/index.html
+malaria/screening/index.html
+malaria/symptoms/index.html
+malaria/testing/index.html
+# hepatitis
+hepatitis/about/index.html
+# hepatitis-a
+hepatitis-a/about/index.html
+hepatitis-a/prevention/index.html
+hepatitis-a/signs-symptoms/index.html
+hepatitis-a/vaccination/index.html
+# hepatitis-b
+hepatitis-b/about/index.html
+hepatitis-b/prevention/index.html
+hepatitis-b/signs-symptoms/index.html
+hepatitis-b/testing/index.html
+hepatitis-b/treatment/index.html
+hepatitis-b/vaccination/index.html
+# hepatitis-c
+hepatitis-c/about/index.html
+hepatitis-c/prevention/index.html
+hepatitis-c/signs-symptoms/index.html
+hepatitis-c/testing/index.html
+hepatitis-c/treatment/index.html
+# flu
+flu/about/index.html
+flu/prevention/index.html
+flu/signs-symptoms/index.html
+flu/testing/index.html
+flu/treatment/index.html
+flu/vaccine-process/index.html
+# covid
+covid/about/index.html
+covid/communication/vaccines-children-teens.html
+covid/long-term-effects/living-with-long-covid.html
+covid/prevention/index.html
+covid/risk-factors/index.html
+covid/signs-symptoms/index.html
+# long-covid
+long-covid/about/index.html
+long-covid/living-with/index.html
+long-covid/signs-symptoms/index.html
+# rsv
+rsv/about/index.html
+rsv/causes/index.html
+rsv/symptoms/index.html
+rsv/vaccines/index.html
+# pneumonia
+pneumonia/about/index.html
+pneumonia/prevention/index.html
+pneumonia/risk-factors/index.html
+# measles
+measles/vaccination.html
+measles/about/index.html
+measles/causes/index.html
+measles/signs-symptoms/index.html
+measles/vaccines/index.html
+# mumps
+mumps/about/index.html
+mumps/signs-symptoms/index.html
+mumps/vaccines/index.html
+# rubella
+rubella/about/index.html
+rubella/signs-symptoms/index.html
+rubella/vaccine-impact/index.html
+rubella/vaccines/index.html
+# chickenpox
+chickenpox/about/index.html
+chickenpox/signs-symptoms/index.html
+chickenpox/treatment/index.html
+chickenpox/vaccination-impact/index.html
+chickenpox/vaccines/index.html
+# shingles
+shingles/about/index.html
+shingles/signs-symptoms/index.html
+shingles/vaccines/index.html
+# polio
+polio/about/index.html
+polio/vaccines/index.html
+# tetanus
+tetanus/about/index.html
+tetanus/causes/index.html
+tetanus/vaccines/index.html
+tetanus/vaccines/types.html
+# pertussis
+pertussis/about/index.html
+pertussis/signs-symptoms/index.html
+pertussis/treatment/index.html
+pertussis/vaccines/index.html
+pertussis/vaccines/types.html
+# rabies
+rabies/about/index.html
+rabies/prevention/index.html
+# lyme
+lyme/about/index.html
+lyme/causes/index.html
+lyme/diagnosis-testing/index.html
+lyme/prevention/index.html
+lyme/signs-symptoms/index.html
+lyme/treatment/index.html
+# west-nile-virus
+west-nile-virus/about/index.html
+west-nile-virus/causes/index.html
+west-nile-virus/prevention/index.html
+west-nile-virus/signs-symptoms/index.html
+west-nile-virus/symptoms-diagnosis-treatment/index.html
+# dengue
+dengue/about/index.html
+dengue/prevention/index.html
+dengue/signs-symptoms/index.html
+dengue/transmission/index.html
+dengue/treatment/index.html
+dengue/vaccine/index.html
+# zika
+zika/about/index.html
+zika/causes/index.html
+zika/prevention/index.html
+zika/signs-symptoms/index.html
+zika/testing/index.html
+zika/treatment/index.html
+# norovirus
+norovirus/about/index.html
+norovirus/causes/index.html
+norovirus/prevention/index.html
+# food-safety
+food-safety/about/index.html
+food-safety/prevention/index.html
+food-safety/risk-factors/index.html
+food-safety/signs-symptoms/index.html
+# salmonella
+salmonella/about/index.html
+salmonella/prevention/index.html
+salmonella/signs-symptoms/index.html
+salmonella/treatment/index.html
+# listeria
+listeria/about/index.html
+listeria/causes/index.html
+listeria/prevention/index.html
+listeria/risk-factors/index.html
+listeria/signs-symptoms/index.html
+# ecoli
+ecoli/about/index.html
+ecoli/prevention/index.html
+ecoli/risk-factors/index.html
+ecoli/signs-symptoms/index.html
+ecoli/treatment/index.html
+# std: no patient-facing pages matched
+# chlamydia
+chlamydia/about/index.html
+# gonorrhea
+gonorrhea/about/index.html
+# syphilis
+syphilis/about/about-congenital-syphilis.html
+syphilis/about/index.html
+# herpes
+herpes/about/index.html
+herpes/testing/index.html
+# hpv
+hpv/about/index.html
+hpv/vaccination-impact/index.html
+hpv/vaccines/index.html
+# trichomoniasis
+trichomoniasis/about/index.html
+# bacterial-vaginosis
+bacterial-vaginosis/about/index.html
+# pregnancy
+pregnancy/about/index.html
+# maternal-infant-health
+maternal-infant-health/about/index.html
+# breastfeeding: no patient-facing pages matched
+# birth-defects
+birth-defects/about/index.html
+birth-defects/about/types.html
+birth-defects/diagnosis/index.html
+birth-defects/living-with-down-syndrome/index.html
+birth-defects/prevention/index.html
+birth-defects/screening/diagnosis.html
+# infant-toddler-nutrition
+infant-toddler-nutrition/about/index.html
+# child-development
+child-development/about/index.html
+# vision-health
+vision-health/about-eye-disorders/index.html
+vision-health/prevention/index.html
+# hearing-loss
+hearing-loss/about/index.html
+hearing-loss/causes/index.html
+hearing-loss/prevention/index.html
+hearing-loss/signs-symptoms/index.html
+# oral-health
+oral-health/about/about-dental-fluorosis.html
+oral-health/about/about-oral-cancer.html
+oral-health/about/about-tooth-loss.html
+oral-health/about/index.html
+oral-health/prevention/about-dental-sealants.html
+oral-health/prevention/about-fluoride.html
+# air-quality
+air-quality/about/index.html
+# drinking-water
+drinking-water/about/about-bottled-water-safety.html
+drinking-water/about/about-home-water-treatment-systems.html
+drinking-water/about/about-water-disinfection-with-chlorine-and-chloramine.html
+drinking-water/about/index.html
+drinking-water/causes/index.html
+drinking-water/prevention/about-choosing-home-water-filters.html
+# healthywater
+healthywater/emergency/dwa-comm-toolbox/about.html
+# lead-prevention
+lead-prevention/about/index.html
+lead-prevention/prevention/index.html
+lead-prevention/risk-factors/index.html
+lead-prevention/symptoms-complications/index.html
+lead-prevention/testing/index.html
+# radon
+radon/about/index.html
+radon/prevention/index.html
+radon/testing/index.html
+# carbon-monoxide
+carbon-monoxide/about/index.html
+# heat-health
+heat-health/about-heat-and-your-health.html
+heat-health/about/index.html
+heat-health/risk-factors/index.html
+# extreme-heat
+extreme-heat/about/index.html
+extreme-heat/prevention/index.html
+extreme-heat/risk-factors/index.html
+extreme-heat/signs-symptoms/index.html
+# wildfires
+wildfires/about/index.html
+wildfires/risk-factors/index.html
+# falls
+falls/about/index.html
+falls/prevention/index.html
+# healthy-aging
+healthy-aging/about/index.html
+# injury
+injury/about/index.html
+injury/about/prevention-resources.html
+injury/divisions-offices/about-division-of-injury-prevention.html
+injury/divisions-offices/about-division-of-overdose-prevention.html
+injury/divisions-offices/about-division-of-violence-prevention.html
+injury/wisqars/facts.html
+# drowning
+drowning/about/index.html
+drowning/prevention/about-global-drowning-prevention.html
+drowning/prevention/index.html
+drowning/risk-factors/index.html
+# alcohol
+alcohol/about-alcohol-use/index.html
+alcohol/facts-stats/index.html
+alcohol/prevention/index.html
+# tobacco
+tobacco/about/index.html
+tobacco/e-cigarettes/about.html
+# e-cigarettes: no patient-facing pages matched
+# cannabis
+cannabis/about/about-cbd.html
+cannabis/about/index.html
+# overdose-prevention
+overdose-prevention/about/index.html
+overdose-prevention/prevention/index.html
+overdose-prevention/reversing-overdose/about-naloxone.html
+overdose-prevention/treatment/index.html
+# sleep
+sleep/about/index.html
+# scabies
+scabies/about/index.html
+scabies/causes/index.html
+scabies/prevention/index.html
+scabies/signs-symptoms/index.html
+scabies/treatment/index.html
+# ringworm
+ringworm/about/index.html
+ringworm/causes/index.html
+ringworm/signs-symptoms/index.html
+ringworm/treatment/index.html
+# lice
+lice/about/index.html
+lice/treatment/index.html
+# bed-bugs
+bed-bugs/about/index.html
+# ticks
+ticks/about/index.html
+ticks/prevention/index.html
+# sepsis
+sepsis/about/index.html
+sepsis/living-with/index.html
+sepsis/prevention/index.html
+sepsis/risk-factors/index.html
+# antimicrobial-resistance
+antimicrobial-resistance/about/about-microbial-ecology.html
+antimicrobial-resistance/about/index.html
+antimicrobial-resistance/causes/index.html
+antimicrobial-resistance/prevention/index.html
+# vaccines
+vaccines/index.html
+vaccines/basics/index.html
+vaccines/basics/vaccine-equity.html
+vaccines/vpd/rotavirus/about-intussusception.html
+# handhygiene: no patient-facing pages matched
+# clean-hands
+clean-hands/about/index.html
+clean-hands/prevention/about-hand-hygiene-at-work.html
+clean-hands/prevention/about-hand-hygiene-in-schools-and-early-care-and-education-settings.html
+clean-hands/prevention/about-handwashing-a-healthy-habit-in-the-kitchen.html
+clean-hands/prevention/index.html
+# niosh
+niosh/about/index.html
+niosh/construction/about.html
+niosh/ershdb/about.html
+niosh/npptl/about.html
+niosh/work-hour-training-for-nurses/about.html
+niosh/work-hour-training-for-nurses/overview.html
+# disability-and-health
+disability-and-health/about/index.html
+# womens-health
+womens-health/about/index.html
+# contraception
+contraception/about/index.html
+# reproductive-health
+reproductive-health/about/index.html
+reproductive-health/depression/treatment.html
+# folic-acid
+folic-acid/about/index.html
+# salt
+salt/about/index.html
+# health-literacy: no patient-facing pages matched
+# meningitis
+meningitis/about/index.html
+# cholera
+cholera/about/about-cholera-in-the-united-states.html
+cholera/about/index.html
+cholera/causes/index.html
+cholera/prevention/about-how-family-members-can-prevent-infection.html
+cholera/prevention/index.html
+cholera/signs-symptoms/index.html
+# typhoid-fever
+typhoid-fever/about/index.html
+typhoid-fever/prevention/index.html
+typhoid-fever/signs-symptoms/index.html
+typhoid-fever/treatment/index.html
+# yellow-fever
+yellow-fever/about/index.html
+yellow-fever/causes-and-spread/index.html
+yellow-fever/prevention/index.html
+yellow-fever/signs-symptoms/index.html
+yellow-fever/symptoms-diagnosis-treatment/index.html
+yellow-fever/vaccine/index.html
+# ebola
+ebola/about/index.html
+ebola/causes/index.html
+ebola/signs-symptoms/index.html
+ebola/situation-summary/about-current-outbreak.html
+# mpox
+mpox/about/index.html
+mpox/causes/index.html
+mpox/prevention/index.html
+mpox/signs-symptoms/index.html
+mpox/testing/index.html
+mpox/vaccines/index.html
+# monkeypox
+monkeypox/about/index.html
+monkeypox/causes/index.html
+monkeypox/prevention/index.html
+monkeypox/signs-symptoms/index.html
+monkeypox/testing/index.html
+monkeypox/vaccines/index.html
+# bird-flu
+bird-flu/about/index.html
+bird-flu/prevention/index.html
+bird-flu/risk-factors/index.html
+bird-flu/signs-symptoms/index.html
+bird-flu/testing/index.html
+bird-flu/treatment/index.html
+# common-cold
+common-cold/about/index.html
+common-cold/treatment/index.html
+# sinus-infection
+sinus-infection/about/index.html
+# sore-throat
+sore-throat/about/index.html
+# ear-infection
+ear-infection/about/index.html
+# conjunctivitis
+conjunctivitis/about/index.html
+conjunctivitis/causes/index.html
+conjunctivitis/prevention-infographic/index.html
+conjunctivitis/prevention/index.html
+conjunctivitis/signs-symptoms/index.html
+conjunctivitis/treatment/index.html
+# uti
+uti/about/index.html
+# urinary-tract-infection: no sitemap found
+# group-a-strep
+group-a-strep/about/index.html
+group-a-strep/about/symptoms-of-scarlet-fever.html
+group-a-strep/prevention/index.html
+group-a-strep/testing/index.html
+# strep: no sitemap found
+# cmv: no sitemap found
+# cytomegalovirus
+cytomegalovirus/about/index.html
