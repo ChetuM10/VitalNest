@@ -27,3 +27,6 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Personal prompt log (kept local, not committed)
+prompt_engineering.md
