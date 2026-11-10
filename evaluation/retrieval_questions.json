@@ -1,0 +1,32 @@
+{
+  "description": "Hand-written retrieval evaluation set (T16). 15 questions across topics with the MedlinePlus pages that should be found and short facts that should appear in the retrieved text; plus questions the corpus cannot answer, used to check the no-context threshold. 'facts' use | for alternatives and are matched case-insensitively.",
+  "questions": [
+    {"id": "q01", "topic": "stroke", "question": "What are the early warning signs of a stroke?", "expected_titles": ["Stroke"], "facts": ["face", "arm", "speech"]},
+    {"id": "q02", "topic": "blood pressure", "question": "How can I lower my blood pressure without medicine?", "expected_titles": ["High Blood Pressure", "How to Prevent High Blood Pressure"], "facts": ["salt|sodium", "exercise|physical activity"]},
+    {"id": "q03", "topic": "diabetes", "question": "What causes type 2 diabetes and who is at risk?", "expected_titles": ["Diabetes", "Diabetes Type 2"], "facts": ["insulin", "overweight|weight"]},
+    {"id": "q04", "topic": "sleep", "question": "How do doctors diagnose sleep apnea?", "expected_titles": ["Sleep Apnea"], "facts": ["sleep study"]},
+    {"id": "q05", "topic": "migraine", "question": "What helps with migraine headaches?", "expected_titles": ["Migraine"], "facts": ["medicine", "trigger"]},
+    {"id": "q06", "topic": "dizziness (colloquial)", "question": "Why do I get dizzy when I stand up too fast?", "expected_titles": ["Dizziness and Vertigo", "Low Blood Pressure"], "facts": ["blood pressure"]},
+    {"id": "q07", "topic": "nutrition", "question": "What foods have a lot of iron?", "expected_titles": ["Iron"], "facts": ["meat", "beans|spinach|legumes|lentils"]},
+    {"id": "q08", "topic": "osteoporosis", "question": "How can I prevent osteoporosis?", "expected_titles": ["Osteoporosis"], "facts": ["calcium", "vitamin d"]},
+    {"id": "q09", "topic": "urinary", "question": "What are the symptoms of a urinary tract infection?", "expected_titles": ["Urinary Tract Infections"], "facts": ["burning", "urinate|urination"]},
+    {"id": "q10", "topic": "allergy (indirect)", "question": "How do I know if I have a food allergy?", "expected_titles": ["Food Allergy"], "facts": ["hives|rash", "swelling|anaphylaxis"]},
+    {"id": "q11", "topic": "cholesterol", "question": "What is the difference between HDL and LDL cholesterol?", "expected_titles": ["Cholesterol", "HDL: The \"Good\" Cholesterol", "Cholesterol Levels: What You Need to Know"], "facts": ["good", "bad"]},
+    {"id": "q12", "topic": "mental health", "question": "What are common signs of depression?", "expected_titles": ["Depression"], "facts": ["sad|sadness", "sleep"]},
+    {"id": "q13", "topic": "first aid", "question": "How do I treat a minor burn at home?", "expected_titles": ["Burns", "First Aid"], "facts": ["cool|cold|water"]},
+    {"id": "q14", "topic": "vaccines", "question": "Is the flu shot safe for pregnant women?", "expected_titles": ["Flu Shot", "Flu", "Infections and Pregnancy"], "facts": ["pregnan"]},
+    {"id": "q15", "topic": "digestion", "question": "What causes heartburn and how can I stop it?", "expected_titles": ["Heartburn", "GERD"], "facts": ["acid", "food|foods"]}
+  ],
+  "unanswerable": [
+    "How do I bake sourdough bread?",
+    "Who won the football world cup in 2018?",
+    "What is the capital of France?",
+    "How do I fix a flat bicycle tyre?",
+    "Explain how a blockchain works",
+    "What is the best smartphone to buy?",
+    "What is the dog vaccination schedule?",
+    "How do I train for a marathon?",
+    "How do I change the oil in my car?",
+    "What is the weather forecast for Paris tomorrow?"
+  ]
+}
