@@ -1,7 +1,7 @@
 """Local development entry point:  uvicorn app.local:app --app-dir backend
 
 Loads keys from ingestion/.env or ~/.vitalnest.env first, and uses the keyword index that the ingestion
-build wrote, if there is one. Never used on Lambda (run.sh starts app.main).
+build wrote, if there is one. Never used when hosted (Render starts app.main).
 """
 import os
 from pathlib import Path

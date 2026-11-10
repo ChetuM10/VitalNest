@@ -3,9 +3,9 @@
 Rules, each covered by a test:
 - a variable already set in the shell always wins; earlier files win over later ones;
 - values are never printed, logged or returned (only variable names are reported);
-- nothing is read on AWS Lambda, where keys come from Secrets Manager instead;
-- the backend/ folder is never searched: `sam build` packages that folder into the Lambda zip, so
-  a key file there would be shipped to AWS.
+- nothing is read on a hosted server (Render), where keys are environment variables set in its dashboard;
+- the backend/ folder is never searched, because it is the folder that gets deployed, so a key file
+  there would be shipped with the app.
 
 Search order: ingestion/.env, then ~/.vitalnest.env (outside the project, so OneDrive does not sync it).
 """

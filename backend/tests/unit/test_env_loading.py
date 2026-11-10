@@ -32,7 +32,7 @@ def test_missing_files_are_fine(tmp_path):
 
 
 def test_the_search_list_never_includes_the_backend_folder():
-    """backend/ is what `sam build` packages for Lambda, so a key file there would be shipped to AWS."""
+    """backend/ is the folder that gets deployed, so a key file there would be shipped with the app."""
     paths = default_env_paths()
     assert paths, "there must be at least one default location"
     backend_dir = Path(__file__).resolve().parents[2]
