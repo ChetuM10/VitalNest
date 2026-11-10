@@ -2,3 +2,4 @@ fastapi==0.162.0
 uvicorn==0.54.0
 rank-bm25==0.2.2
 anthropic==2.3.0
+PyJWT[crypto]==2.15.1

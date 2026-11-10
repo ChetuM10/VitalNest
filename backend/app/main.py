@@ -6,7 +6,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import chat, health, me, stream_spike
+from app.api import chat, health, me
+from app.api.rate_limit import build_rate_limiter
 from app.api.schemas import PAYLOAD_TOO_LARGE
 from app.chat.factory import build_chat_service
 from app.config.settings import allowed_origin, bm25_index_path
@@ -19,7 +20,7 @@ logger = logging.getLogger("vitalnest")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load the BM25 index once at startup; Lambda reuses it across warm invocations.
+    """Load the BM25 index once at startup; the server then keeps it in memory.
 
     A missing file only logs a warning, so /v1/health still works before ingestion has run.
     A file that exists but is corrupt stops the app: serving with a broken index would be worse.
@@ -46,18 +47,22 @@ def _describe(error: dict) -> str:
 
 def create_app() -> FastAPI:
     app = FastAPI(title="VitalNest API", docs_url=None, redoc_url=None, lifespan=lifespan)
+    app.state.rate_limiter = build_rate_limiter()
 
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[allowed_origin()],
         allow_methods=["GET", "POST", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type"],
+        expose_headers=["Retry-After"],
     )
 
     @app.exception_handler(HTTPException)
     async def http_error(_: Request, exc: HTTPException) -> JSONResponse:
         detail = exc.detail if isinstance(exc.detail, dict) else {"code": "error", "message": str(exc.detail)}
-        return JSONResponse(_error_body(detail["code"], detail["message"]), status_code=exc.status_code)
+        return JSONResponse(
+            _error_body(detail["code"], detail["message"]), status_code=exc.status_code, headers=exc.headers
+        )
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
@@ -75,7 +80,7 @@ def create_app() -> FastAPI:
     async def llm_error(_: Request, exc: LLMError) -> JSONResponse:
         return JSONResponse(_error_body(exc.code, str(exc)), status_code=504 if exc.code == "timeout" else 502)
 
-    for module in (health, me, stream_spike, chat):
+    for module in (health, me, chat):
         app.include_router(module.router, prefix="/v1")
     return app
 

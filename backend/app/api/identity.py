@@ -1,25 +1,38 @@
-"""Gateway-authenticated identity.
+"""Who is calling: a verified Cognito bearer token (T1b).
 
-T0 only: API Gateway's Cognito authorizer has already validated the token, and the
-Lambda Web Adapter forwards the authorizer result in the x-amzn-request-context header.
-T1b replaces this with FastAPI verifying the JWT itself (signature, issuer, audience, expiry).
+Local development only: when app.local sets LOCAL_DEV_AUTH=1, the Vite proxy's fake identity header is
+accepted instead. That switch is never set on Render.
 """
 import json
+import os
 
 from fastapi import Header
 
 from app.api.errors import api_error
+from app.auth.cognito import TokenError, verify_token
 
-CONTEXT_HEADER = "x-amzn-request-context"
+DEV_HEADER = "x-amzn-request-context"
 
 
-def gateway_identity(
-    request_context: str | None = Header(default=None, alias=CONTEXT_HEADER),
-) -> dict:
-    if not request_context:
-        raise api_error(401, "unauthorized", "Missing authentication context.")
+def _dev_identity(raw: str) -> dict:
     try:
-        claims = json.loads(request_context)["authorizer"]["claims"]
+        claims = json.loads(raw)["authorizer"]["claims"]
         return {"sub": claims["sub"], "email": claims.get("email")}
     except (ValueError, KeyError, TypeError):
-        raise api_error(401, "unauthorized", "Invalid authentication context.")
+        raise api_error(401, "unauthorized", "Invalid authentication.")
+
+
+def current_user(
+    authorization: str | None = Header(default=None),
+    dev_context: str | None = Header(default=None, alias=DEV_HEADER),
+) -> dict:
+    if os.environ.get("LOCAL_DEV_AUTH") == "1" and dev_context:
+        return _dev_identity(dev_context)
+    scheme, _, token = (authorization or "").partition(" ")
+    if scheme.lower() != "bearer" or not token.strip():
+        raise api_error(401, "unauthorized", "Missing or invalid sign-in token.")
+    try:
+        claims = verify_token(token.strip())
+    except TokenError:
+        raise api_error(401, "unauthorized", "Missing or invalid sign-in token.")
+    return {"sub": claims["sub"], "email": claims.get("email")}

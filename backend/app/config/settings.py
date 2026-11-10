@@ -30,5 +30,30 @@ def bm25_index_path() -> Path:
 
 
 def allowed_origin() -> str:
-    """Frontend origin allowed by CORS. Set by the SAM template; defaults to local Vite."""
+    """Frontend origin allowed by CORS. Set with ALLOWED_ORIGIN on the host (the Vercel address); defaults to local Vite."""
     return os.environ.get("ALLOWED_ORIGIN", "http://localhost:5173")
+
+
+def cognito_region() -> str:
+    return os.environ.get("COGNITO_REGION", "ap-south-1")
+
+
+def cognito_user_pool_id() -> str | None:
+    return os.environ.get("COGNITO_USER_POOL_ID")
+
+
+def cognito_client_id() -> str | None:
+    return os.environ.get("COGNITO_CLIENT_ID")
+
+
+def rate_limit_per_minute() -> int:
+    return int(os.environ.get("RATE_LIMIT_PER_MINUTE", "6"))
+
+
+def rate_limit_per_day() -> int:
+    return int(os.environ.get("RATE_LIMIT_PER_DAY", "60"))
+
+
+def rate_limit_global_per_day() -> int:
+    """Overall cap on questions per rolling 24 hours: a spending guard (about $0.0007 per question)."""
+    return int(os.environ.get("RATE_LIMIT_GLOBAL_PER_DAY", "1500"))
