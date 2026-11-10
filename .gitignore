@@ -30,3 +30,9 @@ Thumbs.db
 
 # Personal prompt log (kept local, not committed)
 prompt_engineering.md
+
+# Build artifacts
+*.tsbuildinfo
+
+# Project documents (kept local, not pushed)
+docs/
