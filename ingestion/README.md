@@ -16,7 +16,7 @@ export PINECONE_API_KEY=...                           # in your shell only, neve
 
 - `build` works fully offline. Only `upload` needs the Pinecone key.
 - Safety: downloads only from `https://medlineplus.gov` (checked on every redirect hop), is validated as a MedlinePlus topics file before being saved, and never replaces an existing file. `fetch` and `build` refuse to overwrite earlier output unless you pass `--force`. Errors are printed as one-line messages with exit code 1.
-- `data/` is git-ignored. Copy `data/build/bm25_index.json` into the backend package when T5 loads it.
+- `data/` is git-ignored. After a rebuild, copy `data/build/bm25_index.json` to `backend/app/data/bm25_index.json` (that copy is committed: it is what the deployed API loads) and re-run the retrieval evaluation.
 - Chunk size (1000) and overlap (150) are starting values; T16's retrieval evaluation sets the final numbers.
 - Tests: `cd ingestion && ../.venv/Scripts/python -m pytest` (offline: HTTP is mocked, Pinecone is faked).
 

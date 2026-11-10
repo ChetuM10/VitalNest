@@ -1,0 +1,29 @@
+# Render Blueprint for the VitalNest API (free web service). Create it from the dashboard: New > Blueprint.
+# Secrets are NOT in this file: enter PINECONE_API_KEY and ANTHROPIC_API_KEY in the Render dashboard.
+services:
+  - type: web
+    name: vitalnest-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /v1/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.14.3
+      - key: COGNITO_REGION
+        value: ap-south-1
+      # Entered in the Render dashboard (Cognito > your user pool and app client), not stored in this file.
+      - key: COGNITO_USER_POOL_ID
+        sync: false
+      - key: COGNITO_CLIENT_ID
+        sync: false
+      # The Vercel address of the site, e.g. https://vitalnest.vercel.app (no trailing slash).
+      - key: ALLOWED_ORIGIN
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
