@@ -1,0 +1,138 @@
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+@import '@fontsource/dm-mono/400.css';
+@import '@fontsource/dm-mono/500.css';
+@import 'tailwindcss';
+
+/* "Powder & Ink" design tokens. Light is the default; dark is chosen with data-theme="dark". */
+:root,
+:root[data-theme='light'] {
+  --powder: #a8c9c8;
+  --surface: #ffffff;
+  --page: #f4f8f7;
+  --ink: #14282a;
+  --muted: #4f6567;
+  --line: #d3e0de;
+  --soft: #e3eeed;
+  --coral: #c2410c;
+  --on-coral: #ffffff;
+  --emergency: #b3261e;
+  --on-emergency: #ffffff;
+  --caution-bg: #fff3d6;
+  --caution-fg: #7a4a00;
+  --focus: #14282a;
+  --shadow: 0 1px 2px rgb(20 40 42 / 0.06), 0 12px 32px rgb(20 40 42 / 0.1);
+}
+
+:root[data-theme='dark'] {
+  --powder: #1f3a3b;
+  --surface: #162628;
+  --page: #0e1a1b;
+  --ink: #eaf3f2;
+  --muted: #a3bab8;
+  --line: #2b4244;
+  --soft: #1d3234;
+  --coral: #c2410c;
+  --on-coral: #ffffff;
+  --emergency: #b3261e;
+  --on-emergency: #ffffff;
+  --caution-bg: #3b2a05;
+  --caution-fg: #ffd27a;
+  --focus: #a8c9c8;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.45);
+}
+
+@theme inline {
+  --color-powder: var(--powder);
+  --color-surface: var(--surface);
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-soft: var(--soft);
+  --color-coral: var(--coral);
+  --color-on-coral: var(--on-coral);
+  --color-emergency: var(--emergency);
+  --color-on-emergency: var(--on-emergency);
+  --color-caution-bg: var(--caution-bg);
+  --color-caution-fg: var(--caution-fg);
+  --font-sans: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --shadow-card: var(--shadow);
+}
+
+html {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: var(--page);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* Sentence fade-in as the answer streams. */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-in {
+  animation: fade-in 320ms ease-out both;
+}
+
+/* "Searching trusted sources" three-dot pulse. */
+@keyframes pulse-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--muted);
+  animation: pulse-dot 1.2s infinite ease-in-out;
+}
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* Skeleton cards shown while sources are still loading. */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--soft) 25%, var(--line) 50%, var(--soft) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-in, .dot, .skeleton { animation: none; }
+  .dot { opacity: 0.7; }
+  * { transition: none !important; }
+}
