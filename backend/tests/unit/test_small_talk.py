@@ -12,7 +12,6 @@ GREETINGS = [
     "heyyy", "hiii", "Hellooo!", "HEY!!!", "hi...", "hello?!", "Hi 👋", "hey :)", "Hello 😊",
     "good morning, how are you?", "Hello! What's up?",
 ]
-HELP = ["help", "Help!", "What can you do?", "who are you", "What are you?", "what do you do"]
 THANKS = [
     "thanks", "Thanks!", "Thank you!", "thank you so much", "Thanks a lot", "Thanks a lot!!", "thx", "ty", "cheers", "Thanks VitalNest", "thank u",
     "Appreciate it", "I appreciate it", "I really appreciate it", "much appreciated", "Many thanks", "thanks so much", "Thank you very much",
@@ -58,25 +57,93 @@ NOT_SMALL_TALK = [
 ]
 
 
-@pytest.mark.parametrize("text", GREETINGS + HELP)
-def test_greetings_and_help_requests_get_the_introduction(text):
+def first(replies):
+    return replies[0]
+
+
+@pytest.mark.parametrize("text", GREETINGS)
+def test_greetings_and_casual_talk_get_a_friendly_reply(text):
     result = detect_small_talk(text)
     assert isinstance(result, SmallTalk), text
-    assert result.reply == messages.GREETING_MESSAGE
+    assert result.reply in messages.GREETING_REPLIES + messages.CASUAL_REPLIES + messages.HOW_ARE_YOU_REPLIES
+
+
+@pytest.mark.parametrize("text", ["What can you do?", "who are you", "What are you?", "what do you do"])
+def test_what_can_you_do_gets_the_introduction(text):
+    assert detect_small_talk(text).reply == messages.GREETING_MESSAGE
 
 
 @pytest.mark.parametrize("text", THANKS)
 def test_thanks_gets_a_you_are_welcome(text):
     result = detect_small_talk(text)
     assert result is not None, text
-    assert result.reply == messages.THANKS_MESSAGE
+    assert result.reply in messages.THANKS_REPLIES
 
 
 @pytest.mark.parametrize("text", GOODBYES)
 def test_goodbyes_get_a_goodbye(text):
     result = detect_small_talk(text)
     assert result is not None, text
-    assert result.reply == messages.GOODBYE_MESSAGE
+    assert result.reply in messages.GOODBYE_REPLIES
+
+
+OPENERS = [
+    "I need help", "i need help.", "Need help", "I need some help", "I need your help please", "Help", "Help!", "help me", "Can you help me?",
+    "can you help", "Could you help me out?", "Will you help me", "I have a question", "i have a quick question", "I've got a question",
+    "I have a health question", "I have a question for you", "I want to ask a question", "I'd like to ask something", "Can I ask a question?",
+    "may i ask you something", "question", "Quick question", "I'm looking for help", "I want advice", "Hey, I need help", "hi can you help me",
+    "I NEED HELP!!!", "Can you help me 🙏",
+]
+
+
+@pytest.mark.parametrize("text", OPENERS)
+def test_conversation_openers_are_welcomed_not_sent_to_search(text):
+    result = detect_small_talk(text)
+    assert result is not None, text
+    assert result.reply in messages.OPENER_REPLIES
+
+
+def test_the_opener_examples_from_the_brief():
+    assert detect_small_talk("I need help", choose=first).reply == "Sure! Let me know what you need help with."
+    assert detect_small_talk("Can you help me?", choose=lambda r: r[1]).reply == "Absolutely! What would you like to know?"
+    assert detect_small_talk("I have a question", choose=lambda r: r[2]).reply == "Sure, go ahead. I'm listening."
+
+
+def test_casual_and_how_are_you_have_their_own_replies():
+    assert detect_small_talk("What's up?", choose=first).reply == "Not much! I'm here and ready to help. What's on your mind?"
+    assert detect_small_talk("How are you?", choose=first).reply == "I'm doing well, thanks for asking! How can I help you today?"
+    assert detect_small_talk("Hello, how are you?").reply in messages.HOW_ARE_YOU_REPLIES
+    assert detect_small_talk("hey what's up").reply in messages.CASUAL_REPLIES
+
+
+@pytest.mark.parametrize(
+    "text, replies",
+    [("Hi", messages.GREETING_REPLIES), ("What's up", messages.CASUAL_REPLIES), ("How are you?", messages.HOW_ARE_YOU_REPLIES),
+     ("I need help", messages.OPENER_REPLIES), ("Thanks", messages.THANKS_REPLIES), ("Bye", messages.GOODBYE_REPLIES)],
+)
+def test_replies_vary_and_every_variant_can_appear(text, replies):
+    assert len(replies) >= 3 and len(set(replies)) == len(replies)
+    seen = {detect_small_talk(text).reply for _ in range(400)}
+    assert seen == set(replies)
+
+
+MIXED_AND_VAGUE_BUT_REAL = [
+    "Can you help me with my headache?",
+    "I need help with diabetes",
+    "I need help understanding my blood pressure",
+    "I have a question about asthma",
+    "can I ask a question about vaccines",
+    "I want advice on sleeping better",
+    "Help me understand insulin",
+    "Hi, I need help with asthma",
+    "Thanks, but how is diabetes treated?",
+    "Hey, what are asthma symptoms?",
+]
+
+
+@pytest.mark.parametrize("text", MIXED_AND_VAGUE_BUT_REAL)
+def test_openers_that_say_what_they_want_go_to_the_normal_pipeline(text):
+    assert detect_small_talk(text) is None, text
 
 
 @pytest.mark.parametrize("text", NOT_SMALL_TALK)
@@ -92,5 +159,8 @@ def test_the_replies_are_friendly_and_say_what_the_assistant_is_for():
     assert "emergency" in messages.GOODBYE_MESSAGE.lower()
 
 
-def test_each_category_gets_its_own_reply():
-    assert len({messages.GREETING_MESSAGE, messages.THANKS_MESSAGE, messages.GOODBYE_MESSAGE}) == 3
+def test_each_category_gets_its_own_replies():
+    groups = [messages.GREETING_REPLIES, messages.CASUAL_REPLIES, messages.HOW_ARE_YOU_REPLIES, messages.OPENER_REPLIES,
+              messages.THANKS_REPLIES, messages.GOODBYE_REPLIES]
+    everything = [reply for group in groups for reply in group]
+    assert len(everything) == len(set(everything))

@@ -7,6 +7,7 @@ upgrade (see the plan).
 import re
 
 from app.api.schemas import HistoryMessage
+from app.chat.small_talk import detect_small_talk
 
 MAX_ANCHOR_CHARS = 300
 
@@ -16,6 +17,14 @@ _FOLLOW_UP_START = re.compile(
 _PRONOUNS = {"it", "its", "they", "them", "their", "he", "she", "those", "these"}
 _DEMONSTRATIVES = {"this", "that"}  # only counted near the start: "that" is often just a connecting word
 _EARLY_TOKENS = 5
+# A message made only of these words ("OK can you give me a plan?", "tell me more", "in simple words") names no topic of its
+# own, so it refers back to the earlier question. One real topic word ("a plan to treat asthma") makes it a standalone question.
+_FILLER = frozenset(
+    "ok okay alright sure yes yeah yep please thanks thank you can could would will give me us a an the some your "
+    "plan plans schedule routine list tips steps step by more detail details explain elaborate expand simpler simple "
+    "words example examples summary summarize summarise short brief shorter longer one it tell show make write create "
+    "suggest provide share for that this now too also again like lets let s i want need would like to see have in".split()
+)
 
 
 def normalise_history(history: list[HistoryMessage]) -> list[HistoryMessage]:
@@ -50,6 +59,8 @@ def is_follow_up(message: str) -> bool:
     if _FOLLOW_UP_START.match(text):
         return True
     tokens = re.findall(r"\w+", text)
+    if tokens and all(token in _FILLER for token in tokens):
+        return True
     return any(token in _PRONOUNS for token in tokens) or any(
         token in _DEMONSTRATIVES for token in tokens[:_EARLY_TOKENS]
     )
@@ -60,7 +71,8 @@ def standalone_query(message: str, history: list[HistoryMessage]) -> str:
     cleaned = normalise_history(history)
     if not cleaned or not is_follow_up(message):
         return message
-    user_questions = [m.content for m in cleaned if m.role == "user"]
+    # Small talk ("How are you?") never carries a topic, so it is not an anchor.
+    user_questions = [m.content for m in cleaned if m.role == "user" and detect_small_talk(m.content) is None]
     if not user_questions:
         return message
     # Use the most recent question that stands on its own, so chains of follow-ups keep the topic.

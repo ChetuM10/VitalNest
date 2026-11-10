@@ -46,14 +46,15 @@ def service_with(dense, claude=None, corrector=None) -> ChatService:
 
 @pytest.mark.parametrize(
     "message, reply",
-    [("Hi", messages.GREETING_MESSAGE), ("Hello, how are you?", messages.GREETING_MESSAGE),
-     ("What can you do?", messages.GREETING_MESSAGE), ("Thank you!", messages.THANKS_MESSAGE), ("Goodbye", messages.GOODBYE_MESSAGE)],
+    [("Hi", messages.GREETING_REPLIES), ("Hello, how are you?", messages.HOW_ARE_YOU_REPLIES),
+     ("What can you do?", (messages.GREETING_MESSAGE,)), ("Thank you!", messages.THANKS_REPLIES), ("Goodbye", messages.GOODBYE_REPLIES),
+     ("I need help", messages.OPENER_REPLIES)],
 )
 def test_small_talk_gets_a_friendly_reply_without_searching_or_calling_claude(message, reply):
     dense, claude = Scripted({}), good_claude()
     events = parse_sse(post(client_for(service_with(dense, claude)), message).text)
     assert names(events) == ["token", "safety", "done"]
-    assert text_of(events) == reply
+    assert text_of(events) in reply
     assert dict(events)["safety"] == {"status": "ok", "disclaimer": messages.DISCLAIMER}
     assert dense.queries == [] and claude.calls == []
 
@@ -239,11 +240,12 @@ def test_small_talk_words_never_hide_an_emergency(message):
 @pytest.mark.parametrize(
     "message, reply",
     [
-        ("What's up", messages.GREETING_MESSAGE), ("hey there, how's it going?", messages.GREETING_MESSAGE), ("Good Evening!", messages.GREETING_MESSAGE),
-        ("HELLO!!!", messages.GREETING_MESSAGE), ("Hi 👋", messages.GREETING_MESSAGE),
-        ("Appreciate it", messages.THANKS_MESSAGE), ("Thanks a lot!", messages.THANKS_MESSAGE), ("thank-you", messages.THANKS_MESSAGE),
-        ("Catch you later", messages.GOODBYE_MESSAGE), ("take care!", messages.GOODBYE_MESSAGE), ("See you", messages.GOODBYE_MESSAGE),
-        ("thanks, bye", messages.GOODBYE_MESSAGE),
+        ("What's up", messages.CASUAL_REPLIES), ("hey there, how's it going?", messages.HOW_ARE_YOU_REPLIES), ("Good Evening!", messages.GREETING_REPLIES),
+        ("HELLO!!!", messages.GREETING_REPLIES), ("Hi 👋", messages.GREETING_REPLIES),
+        ("Appreciate it", messages.THANKS_REPLIES), ("Thanks a lot!", messages.THANKS_REPLIES), ("thank-you", messages.THANKS_REPLIES),
+        ("Catch you later", messages.GOODBYE_REPLIES), ("take care!", messages.GOODBYE_REPLIES), ("See you", messages.GOODBYE_REPLIES),
+        ("thanks, bye", messages.GOODBYE_REPLIES),
+        ("Can you help me?", messages.OPENER_REPLIES), ("I have a question", messages.OPENER_REPLIES), ("How are you?", messages.HOW_ARE_YOU_REPLIES),
     ],
 )
 def test_small_talk_variations_never_reach_pinecone_bm25_or_claude(message, reply):
@@ -251,7 +253,7 @@ def test_small_talk_variations_never_reach_pinecone_bm25_or_claude(message, repl
     service = ChatService(dense=dense, bm25=bm25, claude=claude, corrector=corrector())
     events = parse_sse(post(client_for(service), message).text)
     assert names(events) == ["token", "safety", "done"]
-    assert text_of(events) == reply
+    assert text_of(events) in reply
     assert dense.queries == [] and bm25.queries == [] and claude.calls == []
 
 
@@ -262,3 +264,18 @@ def test_real_questions_with_small_talk_words_go_through_the_normal_pipeline(mes
     events = parse_sse(post(client_for(service), message).text)
     assert "sources" in names(events) and "token" in names(events)
     assert dense.queries == [message] and bm25.queries == [message] and len(claude.calls) == 1
+
+
+@pytest.mark.parametrize("message", ["Help me, I can't breathe", "I need help, my father has chest pain right now", "hi I want to kill myself"])
+def test_openers_and_greetings_with_an_emergency_are_still_emergencies(message):
+    dense, claude = Scripted({}), good_claude()
+    events = parse_sse(post(client_for(service_with(dense, claude)), message).text)
+    assert dict(events)["safety"]["status"] in ("emergency", "refused")
+    assert dense.queries == [] and claude.calls == []
+
+
+def test_a_vague_opener_never_gets_the_no_context_reply():
+    dense = Scripted({})
+    events = parse_sse(post(client_for(service_with(dense)), "I need help").text)
+    assert text_of(events) in messages.OPENER_REPLIES
+    assert text_of(events) != messages.NO_CONTEXT_MESSAGE

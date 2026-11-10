@@ -14,6 +14,7 @@ from collections.abc import AsyncIterator, Awaitable, Callable
 
 from app.api.schemas import ChatRequest
 from app.api.sse import sse
+from app.chat.clarify import clarifying_question, context_prefix
 from app.chat.small_talk import detect_small_talk
 from app.conversation.handler import standalone_query
 from app.llm.claude import LLMError
@@ -118,11 +119,19 @@ class ChatService:
             self._log("small_talk", started)
             return self._fixed_plan("ok", talk.reply)
 
+        # Someone who says they are unwell without saying what is wrong gets a short question, not a search.
+        # Runs after the safety checks, so an emergency is never delayed by it.
+        ask = clarifying_question(fixed, request.history)
+        if ask is not None:
+            self._log("clarify", started)
+            return self._fixed_plan("ok", ask)
+        prefix = context_prefix(request.history)  # symptoms already described in answer to a clarifying question
+
         question = request.message
         correction = None
-        searches = [self._retrieve(standalone_query(request.message, request.history))]
+        searches = [self._retrieve(self._search_text(request.message, request.history, prefix))]
         if changes:
-            searches.append(self._retrieve(standalone_query(fixed, request.history)))
+            searches.append(self._retrieve(self._search_text(fixed, request.history, prefix)))
         results = await asyncio.gather(*searches, return_exceptions=True)
         if isinstance(results[0], BaseException):
             raise results[0]
@@ -164,6 +173,10 @@ class ChatService:
             await stream.__aexit__(None, None, None)
 
         return ChatPlan(lambda: self._generate(stream, chunks, question, correction, started, counts), close)
+
+    @staticmethod
+    def _search_text(text: str, history, prefix: str) -> str:
+        return f"{prefix} {text}" if prefix else standalone_query(text, history)
 
     def _is_weak(self, dense_hits) -> bool:
         """No hits, or a best score below the cutoff: the sources do not clearly cover the question."""

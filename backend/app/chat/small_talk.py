@@ -1,10 +1,13 @@
-"""Greetings, thanks and goodbyes: a friendly fixed reply, with no search and no Claude call.
+"""Greetings, small talk, openers ("I need help"), thanks and goodbyes: a friendly reply, with no search and no
+Claude call. Each kind has a few reply variants and one is picked at random.
 
 Only a message that is nothing but small talk counts ("hi" yes, "hey, what are asthma symptoms?" no),
 so a real question is never swallowed. Case, punctuation, emoji, apostrophes and stretched letters
 ("heyyy", "byeee") do not matter. The safety check runs before this, so "hi, I can't breathe" is an emergency.
 """
+import random
 import re
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 
 from app.safety import messages
@@ -22,9 +25,27 @@ _HOW = (
     r"hows everything|how do you do|hows life)"
 )
 _ADDRESS = r"(?: (?:there|everyone|all|friend|buddy|vitalnest))?"
-_GREETING = re.compile(rf"(?:{_OPENER}|{_CASUAL}|{_HOW}){_ADDRESS}(?: (?:{_CASUAL}|{_HOW}))?(?: {_HOW})?")
+_PREFIX = rf"(?:{_OPENER}{_ADDRESS} )?"
+_GREETING = re.compile(rf"{_OPENER}{_ADDRESS}")
+_HOW_ARE_YOU = re.compile(rf"{_PREFIX}{_HOW}{_ADDRESS}(?: {_CASUAL})?|{_PREFIX}{_CASUAL}{_ADDRESS} {_HOW}")
+_CASUAL_TALK = re.compile(rf"{_PREFIX}{_CASUAL}{_ADDRESS}")
 
-_HELP = re.compile(r"(?:help|what can you do|who are you|what are you|what do you do)(?: vitalnest)?")
+_INTRO = re.compile(r"(?:what can you do|who are you|what are you|what do you do)(?: vitalnest)?")
+
+# "I need help", "can you help me?", "I have a question": the person is opening a conversation, not asking one yet.
+# A message that says what the help is for ("can you help me with my headache") is not matched: it is a real question.
+_OPENER_TALK = re.compile(
+    r"(?:(?:ok|okay|hey|hi|hello|please) )?(?:"
+    r"help(?: me| please| me please)?|"
+    r"(?:i )?(?:need|want|could use|would like) (?:some |your |a little |a bit of )?(?:help|assistance|advice)(?: please)?|"
+    r"(?:can|could|would|will) you (?:please )?help(?: me| us)?(?: out)?(?: please)?|"
+    r"(?:i )?(?:have|got|ive got|ive) (?:a |an |one |another |some |a few )?(?:quick |small |little |health |medical |general )?questions?(?: for you)?|"
+    r"(?:i )?(?:want|would like|id like) to ask (?:you )?(?:a |an |one |some )?(?:quick |small |little |health )?(?:question|something)s?|"
+    r"(?:can|may|could) i ask (?:you )?(?:a |an |one |some )?(?:quick |small |little |health )?(?:question|something)s?(?: please)?|"
+    r"(?:quick |small |one )?questions?|"
+    r"i(?: am|m) (?:here|looking) for (?:some )?(?:help|information|info|advice)"
+    r")(?: vitalnest)?"
+)
 
 _THANK_WORD = (
     r"(?:thanks+|thanx+|thankyou+|thank you+|thank u|thx|ty|cheers|many thanks|much appreciated|"
@@ -52,14 +73,24 @@ def _normalise(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def detect_small_talk(message: str) -> SmallTalk | None:
+# Checked in this order; the first full match decides the kind of reply.
+_KINDS: tuple[tuple[re.Pattern, Sequence[str]], ...] = (
+    (_GOODBYE, messages.GOODBYE_REPLIES),
+    (_THANKS_RE, messages.THANKS_REPLIES),
+    (_HOW_ARE_YOU, messages.HOW_ARE_YOU_REPLIES),
+    (_CASUAL_TALK, messages.CASUAL_REPLIES),
+    (_OPENER_TALK, messages.OPENER_REPLIES),
+    (_INTRO, (messages.GREETING_MESSAGE,)),
+    (_GREETING, messages.GREETING_REPLIES),
+)
+
+
+def detect_small_talk(message: str, choose: Callable[[Sequence[str]], str] = random.choice) -> SmallTalk | None:
+    """The reply for a message that is only small talk, else None. `choose` picks the variant (tests pass their own)."""
     text = _normalise(message)
     if not text:
         return None
-    if _GOODBYE.fullmatch(text):
-        return SmallTalk(messages.GOODBYE_MESSAGE)
-    if _THANKS_RE.fullmatch(text):
-        return SmallTalk(messages.THANKS_MESSAGE)
-    if _GREETING.fullmatch(text) or _HELP.fullmatch(text):
-        return SmallTalk(messages.GREETING_MESSAGE)
+    for pattern, replies in _KINDS:
+        if pattern.fullmatch(text):
+            return SmallTalk(choose(replies))
     return None

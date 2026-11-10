@@ -124,3 +124,39 @@ def test_a_very_long_previous_question_is_shortened():
 def test_history_with_only_follow_ups_falls_back_to_the_last_user_question():
     history = turns(("user", "Why?"), ("assistant", "Because."))
     assert "why" in standalone_query("And then?", history).lower()
+
+
+# ---------- follow-ups made only of filler words, and small talk in the history ----------
+
+@pytest.mark.parametrize("message", [
+    "OK can you give me a plan?", "ok give me a plan", "Can you give me a plan?", "tell me more", "Please explain in simple words",
+    "give me an example", "can you make it shorter", "okay, a step by step plan", "yes please", "more details please",
+])
+def test_requests_with_no_topic_of_their_own_are_follow_ups(message):
+    assert is_follow_up(message)
+
+
+@pytest.mark.parametrize("message", [
+    "Can you give me a plan to treat asthma?", "give me a diabetes diet plan", "What is asthma?", "tell me about migraines",
+    "explain how vaccines work", "How to stay fit?",
+])
+def test_requests_that_name_a_topic_are_not_follow_ups(message):
+    assert not is_follow_up(message)
+
+
+def test_the_plan_request_after_stay_fit_searches_for_staying_fit():
+    history = turns(("user", "How to stay fit?"), ("assistant", "Be active most days."))
+    assert standalone_query("OK can you give me a plan?", history) == "How to stay fit? OK can you give me a plan?"
+
+
+def test_small_talk_in_between_is_never_the_topic():
+    history = turns(
+        ("user", "How to stay fit?"), ("assistant", "Be active most days."),
+        ("user", "How are you?"), ("assistant", "Doing great, thank you!"),
+    )
+    assert standalone_query("OK can you give me a plan?", history).startswith("How to stay fit?")
+
+
+def test_history_with_only_small_talk_gives_no_anchor():
+    history = turns(("user", "Hi"), ("assistant", "Hello!"))
+    assert standalone_query("can you give me a plan?", history) == "can you give me a plan?"

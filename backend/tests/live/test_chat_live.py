@@ -95,7 +95,8 @@ def test_grounded_answer_with_real_pinecone_bm25_and_claude(live_client):
     assert len(answer.strip()) > 80
     titles = [s["title"] for s in data["sources"]["sources"]]
     assert any("Asthma" in t for t in titles)
-    assert all(s["url"].startswith("https://medlineplus.gov/") for s in data["sources"]["sources"])
+    approved = ("https://medlineplus.gov/", "https://www.who.int/", "https://www.cdc.gov/")
+    assert all(s["url"].startswith(approved) for s in data["sources"]["sources"])
     assert "[[SUGGESTED" not in answer and "questions" not in answer.lower().split("?")[-1][:20]
     no_secret_leak(body)
     live_client.first_answer = answer

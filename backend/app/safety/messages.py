@@ -52,6 +52,8 @@ NO_CONTEXT_MESSAGE = (
     "health, please talk to a healthcare professional."
 )
 
+# Small talk: a few variants per kind so replies do not feel canned. One is picked at random
+# (see app/chat/small_talk.py). The first message of each kind keeps the earlier wording.
 GREETING_MESSAGE = (
     "Hi! I'm VitalNest, an AI assistant that shares general health information from MedlinePlus, WHO and the CDC. "
     "Ask me about a condition, a symptom or a treatment, and I'll show you where the answer comes from. "
@@ -65,6 +67,44 @@ THANKS_MESSAGE = (
 
 GOODBYE_MESSAGE = (
     "Take care! If you ever have a medical emergency, call your local emergency number straight away."
+)
+
+GREETING_REPLIES = (
+    GREETING_MESSAGE,
+    "Hello! How can I help you today?",
+    "Hey there! What would you like to know?",
+    "Hi! Ask me about a condition, a symptom or a treatment, and I'll show you where the answer comes from.",
+)
+
+CASUAL_REPLIES = (
+    "Not much! I'm here and ready to help. What's on your mind?",
+    "Just here and ready to help! What would you like to know?",
+    "All good here! What can I help you with?",
+)
+
+HOW_ARE_YOU_REPLIES = (
+    "I'm doing well, thanks for asking! How can I help you today?",
+    "Doing great, thank you! What would you like to know?",
+    "I'm good, thanks! What can I help you with today?",
+)
+
+OPENER_REPLIES = (
+    "Sure! Let me know what you need help with.",
+    "Absolutely! What would you like to know?",
+    "Sure, go ahead. I'm listening.",
+    "Of course. What health question do you have in mind?",
+)
+
+THANKS_REPLIES = (
+    THANKS_MESSAGE,
+    "Happy to help! Let me know if you have another question.",
+    "Anytime! Ask me anything else about a condition, symptom or treatment.",
+)
+
+GOODBYE_REPLIES = (
+    GOODBYE_MESSAGE,
+    "Goodbye! Come back whenever you have a health question.",
+    "See you! Take care, and if you ever need urgent help, call your local emergency number.",
 )
 
 OUT_OF_SCOPE_REFUSAL = (
